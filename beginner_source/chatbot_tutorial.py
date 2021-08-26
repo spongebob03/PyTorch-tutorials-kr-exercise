@@ -2,29 +2,26 @@
 
 """
 챗봇 튜토리얼
-================
+=============
 **Author:** `Matthew Inkawhich <https://github.com/MatthewInkawhich>`_
- 
 """
 
 
 ######################################################################
 # 이 튜토리얼을 통해 순환 시퀀스-투-시퀀스(recurrent sequence-to-sequence) 모델의 
-# 재밌고 흥미로운 사례를 볼 수 있습니다. 우리는 영화 대본으로 구성된
-# `영화 속 대화 말뭉치 데이터(Cornell Movie-Dialogs) <https://www.cs.cornell.edu/~cristian/Cornell_Movie-Dialogs_Corpus.html>`__ 
-# 를 사용한 간단한 챗봇을 학습시킬 겁니다. 
-# 
+# 재밌고 흥미로운 사례를 볼 수 있습니다. 영화 대본으로 구성된
+# `영화 속 대화 말뭉치 데이터(Cornell Movie-Dialogs) 
+# <https://www.cs.cornell.edu/~cristian/Cornell_Movie-Dialogs_Corpus.html>`__ 를 사용한 간단한 챗봇을 학습시킬 겁니다. 
 #
 # 대화형 모델은 인공지능 연구에서 뜨거운 관심 주제입니다. 
 # 챗봇은 고객 서비스와 온라인 헬프데스크 등 다양한 상황에서 활용됩니다. 
-# 이러한 챗봇은 특정 형식의 질문에 미리 정의된 응답을 출력하는 검색 기반(retrieval-based) 모델로 동작하는 경우가 많습니다. 
+# 이러한 챗봇은 특정 형식의 질문에 미리 정의된 응답을 출력하는 검색 기반(retrieval-based) 모델로 동작하는 경우가 많습니다. 
 # 기업의 IT 헬프테스크와 같이 매우 제한된 도메인에서는 이러한 모델을 사용하는 것이 충분할 수 있지만,
 # 더 일반적인 상황에서 이는 효과적이지 않습니다. 
 # 사람과 다양한 분야에 대해 유의미한 대화할 수 있도록 기계를 학습시키는 것은 아직 해결되지 않은 연구 과제입니다. 
 # 최근 딥러닝 붐으로 다중 도메인 대화 생성 모델에서 큰 진척을 보인 구글의 `신경 대화 모델(Neural
-# Conversational Model) <https://arxiv.org/abs/1506.05869>`__
-# 같은 강력한 생성 모델이 등장하고 있습니다.
-# 이 튜토리얼에서 우리는 이러한 모델을 PyTorch로 구현해보려 합니다. 
+# Conversational Model) <https://arxiv.org/abs/1506.05869>`__ 같은 강력한 생성 모델이 등장하고 있습니다.
+# 이번 튜토리얼을 통해 이러한 모델을 PyTorch로 구현해보겠습니다. 
 #
 # .. figure:: /_static/img/chatbot/bot.png
 #    :align: center
@@ -53,15 +50,15 @@
 #   > goodbye
 #   Bot: goodbye .
 #
-# **Tutorial Highlights**
+# **튜토리얼 핵심**
 #
 # -  `코넬 대학교의 영화 속 대화 말뭉치
 #    <https://www.cs.cornell.edu/~cristian/Cornell_Movie-Dialogs_Corpus.html>`__
 #    데이터셋을 받아오고 전처리합니다
-# -  `Luong의 어텐션 메커니즘(attention mechanism) <https://arxiv.org/abs/1508.04025>`__ 으로
+# -  `Luong attention 메커니즘 <https://arxiv.org/abs/1508.04025>`__ 으로
 #    시퀀스-투-시퀀스 모델(sequence-to-sequence model)을 구현합니다
 # -  미니배치를 이용해 인코더와 디코더를 함께 학습시킵니다
-# -  Greedy Search Decoder 모듈을 구현합니다
+# -  Greedy Search 디코딩 모듈을 구현합니다
 # -  학습시킨 챗봇과 대화를 해봅니다
 #
 # **Acknowledgements**
